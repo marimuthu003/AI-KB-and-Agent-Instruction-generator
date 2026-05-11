@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+aiohttp
+feedparser
+pydantic
+google-generativeai
+python-dotenv
+crawl4ai

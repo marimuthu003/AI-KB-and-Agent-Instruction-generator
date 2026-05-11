@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Data Scraper</title>
+    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>AI Data<span>Scraper</span></h1>
+            </div>
+
+            <nav class="categories" style="margin-top: 2rem;">
+                <h3>Tools</h3>
+                <ul id="tools-list">
+                    <li id="tool-scraper" class="active">AI Web Scraper</li>
+                    <li id="tool-kb">KB Scraper</li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="content-header">
+                <h2 id="current-category">AI Web Scraper</h2>
+            </header>
+
+            <div id="scraper-container" class="feed-grid" style="padding-bottom: 2rem;">
+                <div class="scraper-form-container" style="width: 100%; max-width: 700px; margin: 0 auto;">
+                    <h3 style="margin-bottom: 1.5rem;">Scrape Website with AI</h3>
+                    <form id="scraper-form">
+                        <div class="input-group">
+                            <label for="scraper-url">Website URL</label>
+                            <input type="url" id="scraper-url" placeholder="https://example.com" required>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="input-group" style="flex: 1;">
+                                <label for="scraper-max-pages">Max Pages</label>
+                                <input type="number" id="scraper-max-pages" value="50" min="1">
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label for="scraper-max-depth">Max Depth</label>
+                                <input type="number" id="scraper-max-depth" value="3" min="0">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="input-group" style="flex: 1;">
+                                <label for="scraper-business-model">Business Model</label>
+                                <div class="select-wrapper">
+                                    <select id="scraper-business-model">
+                                        <option value="General">General</option>
+                                        <option value="B2B">B2B</option>
+                                        <option value="B2C">B2C</option>
+                                        <option value="Mixed">Mixed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label for="scraper-agent-role">AI Agent Role</label>
+                                <div class="select-wrapper">
+                                    <select id="scraper-agent-role">
+                                        <option value="General">General Assistant</option>
+                                        <option value="Sales">Sales</option>
+                                        <option value="Support">Support</option>
+                                        <option value="Hiring">Hiring</option>
+                                        <option value="Enquiry">Enquiry</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="scrape-btn" style="width: 100%;">Scrape & Analyze Leads</button>
+                    </form>
+                    <div id="scraper-status" style="margin-top: 1.5rem; text-align: center; color: #00d2ff; display: none;">
+                        <p id="scraper-status-text">Starting crawl...</p>
+                        <p style="font-size: 0.9em; color: #aaa;">Pages crawled: <span id="scraper-count">0</span> / Discovered: <span id="scraper-disc">0</span></p>
+                    </div>
+                    <div id="scraper-results" style="margin-top: 2rem; display: none;">
+                        <div class="tabs-nav">
+                            <button class="tab-btn active" onclick="switchTab('profile')">🏢 Profile</button>
+                            <button class="tab-btn" onclick="switchTab('pain-points')">⚠️ Pain Points</button>
+                            <button class="tab-btn" onclick="switchTab('ai-fit')">🤖 AI Agent Fit</button>
+                            <button class="tab-btn" onclick="switchTab('raw')">📄 Raw JSON</button>
+                        </div>
+                        <div id="tab-profile" class="tab-panel active"></div>
+                        <div id="tab-pain-points" class="tab-panel"></div>
+                        <div id="tab-ai-fit" class="tab-panel"></div>
+                        <div id="tab-raw" class="tab-panel"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="kb-container" class="feed-grid" style="display: none; padding-bottom: 2rem;">
+                <div class="scraper-form-container" style="width: 100%; max-width: 900px; margin: 0 auto;">
+                    <h3 style="margin-bottom: 1.5rem;">Knowledge Base Scraper</h3>
+                    <form id="kb-form">
+                        <div class="input-group">
+                            <label for="kb-url">Website URL</label>
+                            <input type="url" id="kb-url" placeholder="https://example.com/faq" required>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="input-group" style="flex: 1;">
+                                <label for="kb-max-pages">Max Pages</label>
+                                <input type="number" id="kb-max-pages" value="50" min="1">
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label for="kb-max-depth">Max Depth</label>
+                                <input type="number" id="kb-max-depth" value="3" min="0">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <div class="input-group" style="flex: 1;">
+                                <label for="kb-business-model">Business Model</label>
+                                <div class="select-wrapper">
+                                    <select id="kb-business-model">
+                                        <option value="General">General</option>
+                                        <option value="B2B">B2B</option>
+                                        <option value="B2C">B2C</option>
+                                        <option value="Mixed">Mixed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <label for="kb-agent-role">AI Agent Role</label>
+                                <div class="select-wrapper">
+                                    <select id="kb-agent-role">
+                                        <option value="General">General Assistant</option>
+                                        <option value="Sales">Sales</option>
+                                        <option value="Support">Support</option>
+                                        <option value="Hiring">Hiring</option>
+                                        <option value="Enquiry">Enquiry</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="scrape-kb-btn" style="width: 100%;">Build Knowledge Base</button>
+                    </form>
+                    <div id="kb-status" style="margin-top: 1.5rem; text-align: center; color: #00d2ff; display: none;">
+                        <p id="kb-status-text">Starting crawl...</p>
+                        <p style="font-size: 0.9em; color: #aaa;">Pages crawled: <span id="kb-count">0</span> / Discovered: <span id="kb-disc">0</span></p>
+                    </div>
+                    <div id="kb-results" style="margin-top: 2rem; display: none;">
+                        <textarea id="kb-textarea" style="width: 100%; height: 300px; background: rgba(0,0,0,0.2); color: #ccc; border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"></textarea>
+                        <button id="kb-download-btn" style="width: 100%; background: #28a745;">Download as .txt</button>
+                    </div>
+                </div>
+            </div>
+            
+
+        </main>
+
+    </div>
+    <script src="app.js?v=5"></script>
+</body>
+
+</html>

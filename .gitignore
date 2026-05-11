@@ -1,0 +1,15 @@
+.env
+__pycache__/
+*.pyc
+venv/
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+*.log
+crawler_engine/__pycache__/
+static/__pycache__/
+implementation_plan.md.resolved
+antigravity-vibecoding-site-crawler-spec.md
+models.txt
+test-1.py
