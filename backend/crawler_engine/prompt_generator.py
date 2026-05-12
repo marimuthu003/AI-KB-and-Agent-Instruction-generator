@@ -1,5 +1,6 @@
 import os
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 PROMPT_TEMPLATE = """
 ROLE
@@ -177,7 +178,7 @@ AI AGENT ROLE: General Assistant
 """
 }
 
-def generate_voice_agent_prompt(kb_text: str, business_model: str = "General", agent_role: str = "General") -> str:
+async def generate_voice_agent_prompt(kb_text: str, business_model: str = "General", agent_role: str = "General") -> str:
     """
     Takes the raw markdown extracted from crawling and passes it to Gemini
     to synthesize into a structured knowledge base document, tailored to the business model and agent role.
@@ -186,10 +187,8 @@ def generate_voice_agent_prompt(kb_text: str, business_model: str = "General", a
     if not api_key:
         return "Error: GEMINI_API_KEY not found in environment variables."
         
-    genai.configure(api_key=api_key)
-    
-    # Using gemini-2.5-flash
-    model = genai.GenerativeModel('gemini-2.5-flash')
+    client = genai.Client(api_key=api_key)
+    model_id = 'gemini-2.5-flash'
     
     # Get specific instructions
     model_instructions = BUSINESS_MODEL_INSTRUCTIONS.get(business_model, "")
@@ -203,7 +202,10 @@ def generate_voice_agent_prompt(kb_text: str, business_model: str = "General", a
                              .replace("{agent_role_focus}", role_instructions))
     
     try:
-        response = model.generate_content(prompt)
+        response = await client.aio.models.generate_content(
+            model=model_id,
+            contents=prompt
+        )
         return response.text
     except Exception as e:
         return f"Error generating knowledge base structure: {str(e)}"

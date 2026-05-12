@@ -1,16 +1,17 @@
 import os
 import json
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 from typing import Dict, Any
 
-def analyze_leads(kb_text: str) -> Dict[str, Any]:
+async def analyze_leads(kb_text: str) -> Dict[str, Any]:
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("GEMINI_API_KEY not found in environment.")
         
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
     # Using gemini-2.5-flash as requested
-    model = genai.GenerativeModel('gemini-2.5-flash')
+    model_id = 'gemini-2.5-flash'
     
     prompt = f"""
     You are a Senior Strategic Analyst. Your job is to analyze the following website text top-to-bottom and extract structured company data.
@@ -55,12 +56,14 @@ def analyze_leads(kb_text: str) -> Dict[str, Any]:
     {kb_text[:60000]}
     """
     
-    generation_config = genai.types.GenerationConfig(
-        response_mime_type="application/json",
-    )
-    
     try:
-        response = model.generate_content(prompt, generation_config=generation_config)
+        response = await client.aio.models.generate_content(
+            model=model_id,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+            )
+        )
         text = response.text.strip()
         
         # Clean potential markdown wrappers

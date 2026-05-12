@@ -68,3 +68,50 @@ class CrawlSiteResponse(BaseModel):
     task_id: str
     status: str
     message: str
+
+# Agent Integration Models
+class EvaluateRequest(BaseModel):
+    input_kb: str
+
+class EvaluateResponse(BaseModel):
+    score: int
+    reasoning: str
+    improved_kb: Optional[str] = None
+
+class GenerateRequest(BaseModel):
+    input_kb: str
+    instruction_type: str = "Sales"
+    call_direction: str = "Inbound"
+    agent_name: str = "Aaliyah"
+    company_name: str = "the company"
+    extra_instructions: Optional[str] = ""
+
+class GenerateResponse(BaseModel):
+    final_instructions: str
+    auditor_score: int
+    auditor_reasoning: str
+    was_refined: bool
+
+class QaRequest(BaseModel):
+    input_kb: str
+
+class QaItem(BaseModel):
+    question: str
+    answer: str
+    type_of_question: str
+
+class QaResponse(BaseModel):
+    qa_list: List[QaItem]
+
+class UpdateKBRequest(BaseModel):
+    task_id: str
+    kb_content: str
+
+class UpdateInstructionsRequest(BaseModel):
+    task_id: str
+    instructions: str
+
+class UpdateQaRequest(BaseModel):
+    task_id: str
+    qa_list: List[QaItem]
+

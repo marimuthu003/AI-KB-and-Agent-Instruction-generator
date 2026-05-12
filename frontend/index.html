@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Orchestrator</title>
+    <link rel="stylesheet" href="premium.css?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>AI <span>Orchestrator</span></h1>
+            </div>
+            
+            <nav id="tools-list">
+                <div class="nav-item active" data-tool="orchestrator">
+                    <span class="icon">⚡</span> Agent Orchestrator
+                </div>
+                <div class="nav-item" data-tool="kb">
+                    <span class="icon">📚</span> KB Management
+                </div>
+                <div class="nav-item" data-tool="settings">
+                    <span class="icon">⚙️</span> Settings
+                </div>
+            </nav>
+
+            <div style="margin-top: auto; padding: 1rem; background: var(--glass); border-radius: 12px; font-size: 0.8rem;">
+                <p style="color: var(--text-secondary);">System Status</p>
+                <p style="color: var(--success); font-weight: 600;">● Online</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header style="margin-bottom: 3rem;">
+                <h2 style="font-size: 2rem; font-weight: 800;">Agentic AI Orchestrator</h2>
+                <p style="color: var(--text-secondary);">Transform any URL into a production-ready AI Agent.</p>
+            </header>
+
+            <!-- Agent Pipeline Tracker -->
+            <div class="agent-pipeline" id="pipeline-tracker">
+                <div class="pipeline-step" id="step-scrape">
+                    <div class="step-icon">1</div>
+                    <span class="step-label">Scraping</span>
+                </div>
+                <div class="pipeline-step" id="step-kb">
+                    <div class="step-icon">2</div>
+                    <span class="step-label">KB Gen</span>
+                </div>
+                <div class="pipeline-step" id="step-audit">
+                    <div class="step-icon">3</div>
+                    <span class="step-label">Audit</span>
+                </div>
+                <div class="pipeline-step" id="step-refine">
+                    <div class="step-icon">4</div>
+                    <span class="step-label">Refine</span>
+                </div>
+                <div class="pipeline-step" id="step-qa">
+                    <div class="step-icon">5</div>
+                    <span class="step-label">QA Gen</span>
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <div class="glass-card">
+                <form id="scraper-form">
+                    <div class="field-group" style="margin-bottom: 1.5rem;">
+                        <label>Website URL</label>
+                        <input type="url" id="url" placeholder="https://example.com" required>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="field-group">
+                            <label>Business Model</label>
+                            <select id="business-model">
+                                <option value="B2B">B2B (Enterprise)</option>
+                                <option value="B2C">B2C (Consumer)</option>
+                                <option value="Mixed">Mixed (B2B & B2C)</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label>Agent Role</label>
+                            <select id="agent-role">
+                                <option value="Sales">Sales & Conversion</option>
+                                <option value="Support">Support & FAQ</option>
+                                <option value="Hiring">Hiring & Recruitment</option>
+                                <option value="Enquiry">Enquiry & Leads</option>
+                                <option value="General">General Assistant</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-hero" id="submit-btn">Run Multi-Agent Orchestrator</button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-container" style="display: none; margin-top: 4rem;">
+                <div class="tab-header">
+                    <button class="tab-link active" data-tab="tab-profile">Company Profile</button>
+                    <button class="tab-link" data-tab="tab-kb">Knowledge Base</button>
+                    <button class="tab-link" data-tab="tab-instructions">Agent Instructions</button>
+                    <button class="tab-link" data-tab="tab-qa">Q&A Pairs</button>
+                </div>
+
+                <!-- Profile Tab -->
+                <div id="tab-profile" class="tab-pane active">
+                    <div class="analytics-grid" id="profile-content"></div>
+                </div>
+
+                <!-- KB Tab -->
+                <div id="tab-kb" class="tab-pane" style="display: none;">
+                    <div class="editor-surface">
+                        <div class="editor-header">
+                            <span style="font-weight: 600;">knowledge_base.md</span>
+                            <div>
+                                <span class="badge badge-score" id="kb-score-badge">Score: --</span>
+                                <button class="btn-secondary" id="save-kb" style="background: var(--success); color: white; border: none;">Save KB</button>
+                                <button class="btn-secondary" id="copy-kb">Copy</button>
+                            </div>
+                        </div>
+                        <textarea id="kb-editor" class="editor-area"></textarea>
+                    </div>
+                </div>
+
+                <!-- Instructions Tab -->
+                <div id="tab-instructions" class="tab-pane" style="display: none;">
+                    <div class="editor-surface">
+                        <div class="editor-header">
+                            <span style="font-weight: 600;">agent_system_prompt.txt</span>
+                            <div>
+                                <span class="badge badge-refined" id="refine-badge" style="display: none;">Refined</span>
+                                <button class="btn-secondary" id="save-instructions" style="background: var(--success); color: white; border: none;">Save Instructions</button>
+                                <button class="btn-secondary" id="copy-instructions">Copy</button>
+                            </div>
+                        </div>
+                        <textarea id="instruction-editor" class="editor-area"></textarea>
+                    </div>
+                </div>
+
+                <!-- QA Tab -->
+                <div id="tab-qa" class="tab-pane" style="display: none;">
+                    <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button class="btn-secondary" id="add-qa" style="background: var(--accent-primary); color: white; border: none;">+ Add Question</button>
+                        <button class="btn-secondary" id="save-qa" style="background: var(--success); color: white; border: none;">Save All QA</button>
+                    </div>
+                    <div id="qa-content" class="analytics-grid"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>
